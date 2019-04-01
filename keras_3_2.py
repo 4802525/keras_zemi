@@ -24,7 +24,7 @@ import numpy as np
 from numpy.random import *
 from tqdm import tqdm
 import keras
-from keras.models import Sequential
+from keras.models import Sequential,load_model
 from keras.initializers import TruncatedNormal
 from keras.layers import Activation, Dense, Dropout
 from keras.utils import np_utils
@@ -52,7 +52,7 @@ parser.add_argument( '--test_input', '-ti', default="mfb40_test.lst",
                     help = 'test set')
 parser.add_argument( '--input_node', '-in', default=40, type=int,
                     help = 'number of input node')
-parser.add_argument( '--num_frame', '-nf', default=1, type=int,
+parser.add_argument( '--num_frame', '-nf', default=7, type=int,
                     help = 'number of input frame')
 parser.add_argument( '--output_node', '-on', default=99, type=int,
                     help = 'number of output node')
@@ -226,7 +226,7 @@ else:
     Activation('relu'),
     Dropout(0.2),
     Dense(n_output, activation='softmax')
-])
+  ])
 model.summary()
 
 
@@ -235,11 +235,12 @@ model.summary()
 # In[5]:
 
 
-model.compile(loss='categorical_crossentropy', 
-              optimizer='adam', metrics=['accuracy'])
-hist = model.fit(x=learn_features, y=learn_labels,
-          batch_size=batchsize, epochs=n_epoch,
-          validation_data=(valid_features,valid_labels))
+if args.loadmodel == 'none':
+  model.compile(loss='categorical_crossentropy', 
+                optimizer='adam', metrics=['accuracy'])
+  hist = model.fit(x=learn_features, y=learn_labels,
+            batch_size=batchsize, epochs=n_epoch,
+            validation_data=(valid_features,valid_labels))
 
 
 # ## モデルの保存と学習曲線の表示
@@ -251,24 +252,25 @@ hist = model.fit(x=learn_features, y=learn_labels,
 if args.savemodel != 'none':
   model.save(args.savemodel)
 
-#loss
-#loss = hist.history["loss"]
-#val_loss = hist.history["val_loss"]
-#fig = plt.figure()
-#plt.plot(range(len(loss)), loss, "bo", color="r", label="Training loss")
-#plt.plot(range(len(val_loss)), val_loss, "bo", color="b", label="validing loss")
-#plt.xlabel("epochs")
-#plt.title("loss")
-
-#acc
-#acc = hist.history["acc"]
-#val_acc = hist.history["val_acc"]
-#fig = plt.figure()
-#plt.ylim(0,1)
-#plt.plot(range(len(acc)), acc, "bo", color="r", label="Training acc")
-#plt.plot(range(len(val_acc)), val_acc, "bo", color="b", label="validing acc")
-#plt.xlabel("epochs")
-#plt.title("acc")
+#if args.loadmodel == 'none':
+#  loss
+#  loss = hist.history["loss"]
+#  val_loss = hist.history["val_loss"]
+#  fig = plt.figure()
+#  plt.plot(range(len(loss)), loss, "bo", color="r", label="Training loss")
+#  plt.plot(range(len(val_loss)), val_loss, "bo", color="b", label="validing loss")
+#  plt.xlabel("epochs")
+#  plt.title("loss")
+#
+#  acc
+#  acc = hist.history["acc"]
+#  val_acc = hist.history["val_acc"]
+#  fig = plt.figure()
+#  plt.ylim(0,1)
+#  plt.plot(range(len(acc)), acc, "bo", color="r", label="Training acc")
+#  plt.plot(range(len(val_acc)), val_acc, "bo", color="b", label="validing acc")
+#  plt.xlabel("epochs")
+#  plt.title("acc")
 
 
 # ## 発話レベルの評価
