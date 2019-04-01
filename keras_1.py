@@ -25,7 +25,7 @@ config = tf.ConfigProto(
     gpu_options = tf.GPUOptions(
         visible_device_list = "0",
         allow_growth = True,
-        per_process_gpu_memory_fraction = 0.3))
+        per_process_gpu_memory_fraction = 0.1))
 sess = tf.Session(config=config)
 K.set_session(sess)
 

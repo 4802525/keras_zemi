@@ -40,7 +40,7 @@ parser = argparse.ArgumentParser(description="Speaker Varification")
 
 parser.add_argument( '--gpu', '-g', default = "0", type = str,
                     help = 'GPU ID')
-parser.add_argument( '--gpu_use', '-gu', default = 0.3, type = float,
+parser.add_argument( '--gpu_use', '-gu', default = 0.1, type = float,
                     help = 'GPU use rate')
 parser.add_argument( '--list_directory', '-ld', default="/net/venus/research3/B4system2019/keras_zemi/kakeiken/list",
                     help = 'list directory')
@@ -69,7 +69,7 @@ args = parser.parse_args()
 #parserの代わり
 #class Argument:
 #  gpu = "0"
-#  gpu_use=0.3
+#  gpu_use=0.1
 #  list_directory = "/net/venus/research3/B4system2019/keras_zemi/kakeiken/list"
 #  learn_input = "mfb40_learn.lst"
 #  valid_input = "mfb40_valid.lst"
