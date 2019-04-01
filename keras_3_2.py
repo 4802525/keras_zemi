@@ -22,7 +22,7 @@
 import argparse
 import numpy as np
 from numpy.random import *
-from tqdm import tqdm_notebook as tqdm
+from tqdm import tqdm
 import keras
 from keras.models import Sequential
 from keras.initializers import TruncatedNormal
