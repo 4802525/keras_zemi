@@ -48,6 +48,38 @@ print(labels[:3])
 
 
 # ## ネットワークの構築
+# kerasでは層を積み上げていくイメージ  
+# model.add以外にもこんな書き方もできる
+# ```
+# model = Sequential([
+#     Dense(20, input_dim=5, activation='relu'),
+#     Dense(2,activation='softmax')
+# ])
+# ```
+# Functional APIを使った記法  
+# 複雑なモデルを作るときに使用，最初はこんなのあるんだ見たいな気持ちでOK
+# ```
+# from keras.layers import Input, Dense, Activation
+# from keras.models import Model
+# inputs = Input(shape=(5,))
+# x = Dense(20)(inputs)
+# x = Activation('relu')(x)
+# outputs = Dense(2,activation='softmax')(x)
+# model = Model(inputs=inputs, outputs = outputs)
+# ```
+# ### 活性化関数
+# - sigmoid
+# - relu
+# - tanh  
+# 
+# ### バッチ正規化層
+# ミニバッチ内での直前の出力を正規化する
+# - 学習を早く進行できる
+# - 初期値に依存しない
+# - 過学習抑制
+# ```
+# from keras.layers.normalization import BatchNormalization
+# ```
 
 # In[3]:
 
@@ -58,18 +90,32 @@ model.add(Dense(20, input_dim=5))
 model.add(Activation('relu'))
 model.add(Dense(2, activation='softmax'))
 
-#こんな書き方もできる
-# model = Sequential([
-#     Dense(20, input_dim=5),
-#     Activation('relu'),
-#     Dense(2,activation='softmax')
-# ])
-
 #ネットワーク構造の出力
 model.summary()
 
 
 # ## 学習
+# ### 最適化関数(optimizer)  
+# - SGD(確率的勾配降下法):  
+# 傾きに比例して移動する  
+# - Momentam:  
+# ボールが転がるイメージ  
+# - AdaGrad:  
+# 学習係数を下げていく(最初は大きく動かし，終盤は微調整)
+# - Adam:  
+# MomentumとAdaGradの融合    
+# 
+# 例(optimizerを設定する場合
+# ```
+# from keras import optimizers
+# adam = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999,epsilon=None, decay=0.0, amsgrad=False)
+# model.compile(optimizer = adam, 'categorical_crossentropy', metrics=['accuracy'])
+# ```
+# ### 損失関数(loss)
+# - mean_squared_errer:二乗平均誤差
+# - mean_absolute_error:絶対平均誤差
+# - hinge:マイナスのところは0,プラスのところはその値
+# - categorical_crossentropy:複数クラスの交差エントロピー
 
 # In[4]:
 
@@ -126,8 +172,12 @@ print(sum(predict == test_label) /1000)
 
 
 weight = model.get_weights()
+print("hidden weight")
 print(weight[0]) #隠れ層重み
+print("hidden bias")
 print(weight[1]) #隠れ層バイアス
+print("output weight")
 print(weight[2]) #出力層重み
+print("output bias")
 print(weight[3]) #出力層バイアス
 
