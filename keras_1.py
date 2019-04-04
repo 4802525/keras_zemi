@@ -2,9 +2,10 @@
 # coding: utf-8
 
 # # kerasに慣れよう1
+
 # 入力ベクトル$(x_{1},x_{2},x_{3},x_{4},x_{5})$ ($x_i \in [0,1]$)の各要素の加算結果が2.5以上で1,未満で0を出すモデル  
 # $f(x) = if\ \sum^5_{i=1}x_i \ \geq\ 2.5 \ then\  1\  else\  0$  
-# 参考:[無から始めるKeras 第1回][1]
+# 参考:[無から始めるKeras 第1回][1]  
 # [1]:https://qiita.com/Ishotihadus/items/c2f864c0cde3d17b7efb
 
 # ## ライブラリなどの準備
@@ -48,6 +49,7 @@ print(labels[:3])
 
 
 # ## ネットワークの構築
+
 # kerasでは層を積み上げていくイメージ  
 # model.add以外にもこんな書き方もできる
 # ```
@@ -95,6 +97,7 @@ model.summary()
 
 
 # ## 学習
+
 # ### 最適化関数(optimizer)  
 # - SGD(確率的勾配降下法):  
 # 傾きに比例して移動する  
